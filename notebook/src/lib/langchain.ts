@@ -35,6 +35,22 @@ export async function loadPDF_FS_Chunked(filePath: string) {
 }
 
 
+
+
+
+
+export async function loadFile(fileUrl : string){
+  try {
+    
+    const loader = new WebPDFLoader(fileUrl);
+    const docs = await loader.load();
+    console.log({ docs });
+  } catch (error) {
+    console.log(error);
+  }
+
+}
+
 import { getPineConeClient } from "./pinecone";
 import { getVectors } from "./pinecone";
 import {ConversationalRetrievalQAChain} from 'langchain/chains'

@@ -9,14 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
+import { BackgroundGradientAnimation } from '@/components/bg-animate'
 
 export default function Page() {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <Card className="">
+    <div className="flex flex-col justify-center items-center h-full bg-black/90">
+
+      <Card className="bg-black/20 border-none text-white">
         <CardHeader>
           <CardTitle className="text-4xl font-bold">Login</CardTitle>
-          <CardDescription>
+          <CardDescription className="text-white/80"> 
             Log in with your social accounts!
           </CardDescription>
         </CardHeader>

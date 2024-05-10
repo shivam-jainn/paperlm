@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import authpic from '../../../public/authpic.jpg'
-
 export default function Layout({children}:{
     children : ReactNode
 }) {
@@ -15,7 +14,6 @@ export default function Layout({children}:{
             }}
         >
         </div>
-
         <div className='w-1/2 h-full'>
             {children}
         </div>

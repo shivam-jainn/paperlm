@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Check,X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast"
+import { PodSpecMetadataConfigFromJSONTyped } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch";
 
 export default function ChatNav({ notebookName }: { notebookName: string }) {
   const session = useSession();
@@ -35,8 +36,10 @@ export default function ChatNav({ notebookName }: { notebookName: string }) {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
   const handleUploadPDF = async () => {
     try {
+        setIsOpen(true);
         const formData = new FormData();
         formData.append("pdf", pdfFile as Blob);
         formData.append("user_id", session.data?.user?.id as string);
@@ -45,11 +48,18 @@ export default function ChatNav({ notebookName }: { notebookName: string }) {
             method: "POST",
             body: formData
         });
+        console.log(response)
+        const body = response.body;
         const data = await response.json();
+        console.log(data)
+        console.log(body)
+        
         toast({
-            title: `PDF File Uploaded : ${data.pdfName} `,
+            title: `PDF File Uploaded : ${data.pdf} `,
             description: "Oof! Last moment reading huh?",
         });
+
+        setIsOpen(false);
     } catch (error) {
         console.log(error)
         toast({
@@ -64,9 +74,11 @@ export default function ChatNav({ notebookName }: { notebookName: string }) {
   return (
     <div className="w-full flex justify-between items-center border-b-2 p-4 border-gray-200 shadow-sm">
       <div className="text-xl font-semibold">{notebookName}</div>
-      <Dialog>
+      <Dialog open={isOpen}>
         <DialogTrigger>
-          <Button className="rounded-lg text-white focus:outline-none">
+          <Button className="rounded-lg text-white focus:outline-none"
+          onClick={()=>setIsOpen(true)}
+          >
             Upload PDF
           </Button>
         </DialogTrigger>

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:NextRequest,res:NextResponse) {
     try {
-        const result = await LCESP()
+        const result = "await LCESP()"
         console.log(result);
         NextResponse.json({result})
     } catch (error) {
@@ -33,13 +33,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const result = await UploadPDF(BufferPDF, user_id, pdfName);
         console.log(result);
         if(result){
-            const fresult = await LCESP()
-            NextResponse.json({ fresult, pdfName });
+            const fresult = await LCESP(BufferPDF);
+            console.log("fresult",fresult)
+            return NextResponse.json({ 
+                "result":fresult                
+                , "pdf":pdfName });
         }else{
             throw new Error("PDF Upload failed");
         }
     } catch (error) {
         console.log(error);
-        NextResponse.json({error:'Internal Server Error'});
+        return NextResponse.json({error:'Internal Server Error'}); // Return a response in the catch block
     }
 }

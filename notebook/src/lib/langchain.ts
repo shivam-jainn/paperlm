@@ -1,16 +1,5 @@
 import { WebPDFLoader } from "langchain/document_loaders/web/pdf";
 
-export async function loadPDF(blob: Blob) {
-  try {
-    const loader = new WebPDFLoader(blob);
-    const docs = await loader.load();
-    console.log({ docs });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// loadPDF()
 
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -39,12 +28,22 @@ export async function loadPDF_FS_Chunked(filePath: string) {
 
 
 
-export async function loadFile(fileUrl : string){
+export async function loadPDF_Chunk(pdf:Buffer){
   try {
-    
-    const loader = new WebPDFLoader(fileUrl);
+    const blobPDF = new Blob([pdf]);
+
+    const loader = new WebPDFLoader(blobPDF);
     const docs = await loader.load();
     console.log({ docs });
+    const textSplit = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 500,
+    });
+
+    const chunked_docs = await textSplit.splitDocuments(docs);
+
+    console.log({ chunked_docs });
+    return chunked_docs;
   } catch (error) {
     console.log(error);
   }

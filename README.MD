@@ -1,9 +1,9 @@
-    #notebook LLM bot
+# notebook LLM bot
 
     - Upload pdf
     - Find answers you are looking for
 
-    TECH STACK
+# TECH STACK
 
     - OpenAI embeddings
     - Langchain

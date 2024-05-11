@@ -9,14 +9,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
+import { BackgroundGradientAnimation } from '@/components/bg-animate'
+import { callChain } from "@/lib/langchain";
 
 export default function Page() {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <Card className="">
+    <div className="flex flex-col justify-center items-center h-full bg-black/90">
+
+      <Card className="bg-black/20 border-none text-white">
         <CardHeader>
           <CardTitle className="text-4xl font-bold">Login</CardTitle>
-          <CardDescription>
+          <CardDescription className="text-white/80"> 
             Log in with your social accounts!
           </CardDescription>
         </CardHeader>
@@ -26,7 +29,8 @@ export default function Page() {
               type="submit"
               className="w-full bg-gray-800 text-white hover:bg-gray-700 transition duration-300 ease-in-out"
               onClick={() => {
-                signIn("github");
+                signIn("github", { callbackUrl: "http://localhost:3000/me" });
+
               }}
             >
               Login with Github
@@ -35,7 +39,7 @@ export default function Page() {
               variant="outline"
               className="w-full border border-gray-800 text-gray-800 hover:bg-gray-100 hover:border-gray-700 transition duration-300 ease-in-out"
               onClick={() => {
-                signIn("google");
+                signIn("google", { callbackUrl: "http://localhost:3000/me" });
               }}
             >
               Login with Google

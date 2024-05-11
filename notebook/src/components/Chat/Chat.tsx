@@ -7,6 +7,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Spinner } from "../spinner";
 import { useEffect, useRef } from "react";
+import ChatBubble from "./ChatBubble";
 
 export function Chat() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -18,16 +19,19 @@ export function Chat() {
 
  
   return (
-    <div className="rounded-2xl border h-[75vh] flex flex-col justify-between">
-      <div className="p-6 overflow-auto" ref={containerRef}>
+    <div className="rounded-2xl border h-full shadow-lg flex flex-col justify-between">
+      <div className="p-6 flex flex-col overflow-auto" ref={containerRef}>
         {messages.map(({ id, role, content }: Message, index) => (
-          <ChatLine
+    <div className={`w-full flex  ${role=="user"?"justify-end ":""} `}>
+      <ChatBubble
             key={id}
             role={role}
-            content={content}
+            message={content}
             // Start from the third message of the assistant
             sources={data?.length ? getSources(data, role, index) : []}
           />
+    </div>
+    
         ))}
       </div>
 

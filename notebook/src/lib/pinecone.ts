@@ -12,9 +12,13 @@ export async function UpsertDocs(pcInstance:Pinecone,docs:Document[]){
 
         const embeddings = new OpenAIEmbeddings({verbose:true, apiKey: process.env.OPENAI_API_KEY as string,model:"text-embedding-3-small" });
 
-        await PineconeStore.fromDocuments(docs,embeddings,{
+        const result = await PineconeStore.fromDocuments(docs,embeddings,{
             pineconeIndex : index,
         });
+
+        console.log("Upserted docs");
+
+        return result;
 
     } catch (error) {
         console.log(error);
